@@ -28,7 +28,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
 		{
 			var @event = mapper.Map<Event>( request );
 
-			var validator = new CreateEventCommandValidator();
+			var validator = new CreateEventCommandValidator(eventRepository);
 			var validationResult = await validator.ValidateAsync(request);
 
 			if(validationResult.Errors.Count > 0)
