@@ -44,21 +44,21 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Commands.Crea
 			@event = await eventRepository.AddAsync( @event );
 
 			// Sending email notification to admin address
-			var email = new Email()
-			{
-				To = "layugjesriel39@gmail.com",
-				Body = $"A new event was created: {request}",
-				Subject = "Event created."
-			};
+			//var email = new Email()
+			//{
+			//	To = "layugjesriel39@gmail.com",
+			//	Body = $"A new event was created: {request}",
+			//	Subject = "Event created."
+			//};
 
-			try
-			{
-				await emailService.SendEmail(email);
-			}
-			catch (Exception ex)
-			{
-				// this shouldn't stop the API from doing else so this can be logged
-			}
+			//try
+			//{
+			//	await emailService.SendEmail(email);
+			//}
+			//catch (Exception ex)
+			//{
+			//	// this shouldn't stop the API from doing else so this can be logged
+			//}
 
 			return @event.EventId;
 		}
