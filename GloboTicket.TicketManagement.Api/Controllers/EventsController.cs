@@ -64,5 +64,13 @@ namespace GloboTicket.TicketManagement.Api.Controllers
             await mediator.Send(deleteEventCommand);
             return NoContent();
         }
+
+        [HttpGet("export", Name = "ExportEvents")]
+        public async Task<FileResult> ExportEvents()
+        {
+            var fileDto = await mediator.Send(new GetEventsExportQuery());
+
+            return File(fileDto.Data, fileDto.ContentType, fileDto.EventExportFileName);
+        }
     }
 }
