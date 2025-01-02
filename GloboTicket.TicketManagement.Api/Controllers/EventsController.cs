@@ -36,7 +36,7 @@ namespace GloboTicket.TicketManagement.Api.Controllers
             return Ok(await mediator.Send(getEventDetailQuery));
         }
 
-        [HttpGet(Name = "AddEvent")]
+        [HttpPost(Name = "AddEvent")]
         public async Task<ActionResult<Guid>> Create([FromBody] CreateEventCommand createEventCommand)
         {
             var id = await mediator.Send(createEventCommand);
