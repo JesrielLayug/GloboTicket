@@ -29,12 +29,18 @@ namespace GloboTicket.TicketManagement.Api
                     .AllowCredentials()
                 ));
 
+            // Resume the tutorial to 4:09
+
             return builder.Build();
         }
 
         public static WebApplication ConfigurePipeline(this WebApplication app)
         {
+            app.UseCors("open");
+            app.UseHttpsRedirection();
+            app.MapControllers();
 
+            return app;
         }
     }
 }
