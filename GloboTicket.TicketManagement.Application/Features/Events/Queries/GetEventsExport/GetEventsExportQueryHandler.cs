@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GloboTicket.TicketManagement.Application.Contracts.Infrastructure;
 using GloboTicket.TicketManagement.Application.Contracts.Persistance;
 using GloboTicket.TicketManagement.Domain.Entities;
 using MediatR;
@@ -29,7 +30,7 @@ namespace GloboTicket.TicketManagement.Application.Features.Events.Queries.GetEv
             var allEvents = mapper.Map<List<EventExportDto>>((await
                 eventRepository.ListAllAsync()).OrderBy(x => x.Date));
 
-            var fileData = csvExporter.ExportEventsToCsv(allEvents);
+            var fileData = csvExporter.ExportEventsToCsv(null);
 
             var eventExportFileDto = new EventExportFileVm()
             {
