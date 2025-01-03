@@ -51,5 +51,57 @@ namespace GloboTicket.TicketManagement.Application.UnitTests.Mocks
 
             return mockCategoryRepository;
         }
+
+        public static Mock<ICategoryRepository> GetCategoriesWithEventsRepository()
+        {
+            var concertGuid = Guid.Parse("C0D92B2D-5CD9-414B-BB4C-FA82F0DF3742");
+            var playGuid = Guid.Parse("C91EA355-77EE-40A3-ACC7-D9FB4AD451DD");
+            var conferenceGuid = Guid.Parse("64AFB2D8-9AC2-4BA0-94A2-48BA3B09E27B");
+
+            var categories = new List<Category>
+            {
+                new Category
+                {
+                    CategoryId = Guid.NewGuid(),
+                    Name = "Concerts",
+                    Events = new List<Event>
+                    {
+                        new Event { EventId = Guid.NewGuid(), Name = "Rock Concert", Date = DateTime.UtcNow }
+                    }
+                },
+                new Category
+                {
+                    CategoryId = Guid.NewGuid(),
+                    Name = "Plays",
+                    Events = new List<Event>
+                    {
+                        new Event { EventId = Guid.NewGuid(), Name = "Drama Play", Date = DateTime.UtcNow }
+                    }
+                },
+                new Category
+                {
+                    CategoryId = Guid.NewGuid(),
+                    Name = "Conferences",
+                    Events = new List<Event>
+                    {
+                        new Event { EventId = Guid.NewGuid(), Name = "Tech Conference", Date = DateTime.UtcNow }
+                    }
+                }
+            };
+
+            var mockRepo = new Mock<ICategoryRepository>();
+            mockRepo.Setup(repo => repo.GetCategoriesWithEvents(It.IsAny<bool>()))
+                    .ReturnsAsync(categories);
+
+            mockRepo.Setup(repo => repo.AddAsync(It.IsAny<Category>())).ReturnsAsync(
+                (Category category) =>
+                {
+                    categories.Add(category);
+                    return category;
+                });
+
+            return mockRepo;
+        }
+
     }
 }
