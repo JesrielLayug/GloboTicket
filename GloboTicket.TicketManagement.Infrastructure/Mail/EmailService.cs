@@ -8,15 +8,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace GloboTicket.TicketManagement.Infrastructure.Mail
 {
     public class EmailService : IEmailService
     {
         public EmailSettings EmailSettings { get; }
+        public ILogger<EmailService> Logger { get; }
 
-        public EmailService(IOptions<EmailSettings> mailSettings)
+        public EmailService(IOptions<EmailSettings> mailSettings, ILogger<EmailService> logger)
         {
+            Logger = logger;
             EmailSettings = mailSettings.Value;
         }
 
@@ -39,11 +42,15 @@ namespace GloboTicket.TicketManagement.Infrastructure.Mail
 
             var response = await client.SendEmailAsync(sendGridMessage);
 
+            Logger.LogInformation("Email sent");
+
             if(response.StatusCode == System.Net.HttpStatusCode.Accepted ||
                 response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 return true;
             }
+
+            Logger.LogError("Email sending failed");
 
             return false ;
         }
